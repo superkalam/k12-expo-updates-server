@@ -23,5 +23,5 @@
     ```
 8. Your connection string to use now is:
     ```
-    mongodb://<username>:<password>@<host>:27017/?directConnection=true&serverSelectionTimeoutMS=2000&authSource=admin&appName=mongosh+2.3.0
+    mongodb://<username>:<password>@<fly-app-name>.internal:27017/?directConnection=true&serverSelectionTimeoutMS=2000&authSource=admin&appName=mongosh+2.3.0
     ```
