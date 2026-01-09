@@ -20,7 +20,7 @@ export default function Login ({ handleLogin }) {
         <Card fadeIn style={{ padding: 20, maxWidth: 600 }}>
 
           <Flex fw jb height={220}>
-            <Text value='Orion Expo Update Server Dashboard' bold size={28} />
+            <Text value='K12 Expo Update Server Dashboard' bold size={28} />
 
             <Input autofocus autoComplete='username' placeholder='Username' useState={[username, setUsername]} />
             <Input password useState={[password, setPassword]} onEnter={handleSubmit} />

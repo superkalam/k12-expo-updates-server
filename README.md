@@ -1,4 +1,4 @@
-# Expo update server for orion
+# Expo update server for k12
 
 ### Initial Setup Instructions - DB
 1. Setup infisical secrets and link to fly project.
@@ -23,5 +23,5 @@
     ```
 8. Your connection string to use now is:
     ```
-    mongodb://<username>:<password>@<fly-app-name>.internal:27017/?directConnection=true&serverSelectionTimeoutMS=2000&authSource=admin&appName=mongosh+2.3.0
+    mongodb://<username>:<password>@<host>:27017/?directConnection=true&serverSelectionTimeoutMS=2000&authSource=admin&appName=mongosh+2.3.0
     ```

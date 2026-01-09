@@ -1,4 +1,4 @@
-app = 'orion-expo-updates-server-staging'
+app = 'k12-expo-updates-server-staging'
 primary_region = 'bom'
 
 [build]

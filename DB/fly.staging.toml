@@ -1,4 +1,4 @@
-app = "orion-expo-update-server-db-staging"
+app = "k12-expo-update-server-db-staging"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
@@ -33,7 +33,7 @@ primary_region = 'bom'
     timeout = "2s"
 [[mounts]]
     destination = "/var/lib/mongodb"
-    source = "orion_expo_update_db_staging"
+    source = "k12_expo_update_db_staging"
     initial_size = "1GB"
     auto_extend_size_threshold = 80
     auto_extend_size_increment = "1GB"
