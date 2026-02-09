@@ -6,15 +6,15 @@ RUN mkdir -p /home/node/server && chown -R node:node /home/node/server
 RUN mkdir -p /data/updates
 RUN mkdir -p /data/uploads
 
-RUN chown node:node /data/updates
-RUN chown node:node /data/uploads
+RUN chown -R node:node /data/updates
+RUN chown -R node:node /data/uploads
 
 # Symlink volume to directories
 RUN ln -s /data/updates /updates
 RUN ln -s /data/uploads /uploads
 
-RUN chown node:node /uploads -h
-RUN chown node:node /updates -h
+RUN chown node:node /uploads -h -R
+RUN chown node:node /updates -h -R
 
 WORKDIR /home/node/server
 USER node

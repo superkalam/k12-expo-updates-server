@@ -38,6 +38,11 @@ module.exports.hanldeManifestData = async (app, { query, headers }) => {
     const { metadataJson, createdAt, id } = getMetadataSync(update)
 
     const platformSpecificMetadata = metadataJson.fileMetadata[platform]
+    if (!platformSpecificMetadata) {
+      console.error('[MANIFEST] No platform-specific metadata found for platform:', platform)
+      console.error('[MANIFEST] Available platforms:', Object.keys(metadataJson.fileMetadata || {}))
+      throw new Error(`No metadata found for platform: ${platform}`)
+    }
     const manifest = {
       id: convertSHA256HashToUUID(id),
       createdAt,
@@ -89,7 +94,12 @@ module.exports.hanldeManifestData = async (app, { query, headers }) => {
       formData: form.getBuffer().toString()
     }
   } catch (error) {
-    throw new Err.BadRequest(JSON.stringify('error'))
+    console.error('[MANIFEST] Error generating manifest:', {
+      message: error.message,
+      stack: error.stack,
+      context: { project, platform, runtimeVersion, releaseChannel }
+    })
+    throw new Err.BadRequest(`Manifest generation failed: ${error.message}`)
   }
 }
 

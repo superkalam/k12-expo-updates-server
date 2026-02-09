@@ -48,6 +48,29 @@ const createDocument = async (context) => {
     const info = getJSONInfo({ path })
     appJson = info.appJson
     dependencies = info.dependencies
+
+    // Normalize paths in metadata.json for cross-platform compatibility (Windows -> Linux)
+    const metadataPath = `${path}/metadata.json`
+    const metadataContent = fs.readFileSync(metadataPath, 'utf-8')
+    const metadata = JSON.parse(metadataContent)
+
+    if (metadata.fileMetadata) {
+      Object.keys(metadata.fileMetadata).forEach(platform => {
+        const platformData = metadata.fileMetadata[platform]
+        if (platformData.bundle) {
+          platformData.bundle = platformData.bundle.replace(/\\/g, '/')
+        }
+        if (platformData.assets && Array.isArray(platformData.assets)) {
+          platformData.assets.forEach(asset => {
+            if (asset.path) {
+              asset.path = asset.path.replace(/\\/g, '/')
+            }
+          })
+        }
+      })
+      fs.writeFileSync(metadataPath, JSON.stringify(metadata, null, 2), 'utf-8')
+    }
+
     updateId = getUpdateId(path)
   } catch (e) {
     fs.rmSync(path, { recursive: true, force: true })
