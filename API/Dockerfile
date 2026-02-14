@@ -16,6 +16,9 @@ RUN ln -s /data/uploads /uploads
 RUN chown node:node /uploads -h -R
 RUN chown node:node /updates -h -R
 
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 WORKDIR /home/node/server
 USER node
 COPY --chown=node:node package.json yarn.lock ./
@@ -28,4 +31,5 @@ COPY --chown=node:node . .
 EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s CMD node src/modules/docker/healthcheck.js
 
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["node", "src/index.js"]
