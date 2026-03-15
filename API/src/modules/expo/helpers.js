@@ -55,11 +55,20 @@ module.exports.getMetadataSync = (update) => {
     const metadataPath = `${update.path}/metadata.json`
     const updateMetadataBuffer = fs.readFileSync(path.resolve(metadataPath), null)
     const metadataJson = JSON.parse(updateMetadataBuffer.toString('utf-8'))
+    const releasedAt = new Date(update.releasedAt).toISOString()
+
+    // expo-updates treats manifest `id` as immutable — same id must always
+    // have the same createdAt. Rollbacks re-serve the same bundle (same metadata.json)
+    // so the hash alone would produce a duplicate id with a different createdAt,
+    // causing an infinite restart loop on the client. Adding releasedAt ensures a
+    // unique id per release event.
+    const idSource = updateMetadataBuffer.toString('utf-8') + releasedAt
+    const id = createHash(Buffer.from(idSource, 'utf-8'), 'sha256', 'hex')
 
     return {
       metadataJson,
-      createdAt: new Date(update.releasedAt).toISOString(),
-      id: createHash(updateMetadataBuffer, 'sha256', 'hex')
+      createdAt: releasedAt,
+      id
     }
   } catch (error) {
     throw new Error(`No update found with runtime version: ${update.version}. Error: ${error}`)
